@@ -33,18 +33,18 @@ public class Products {
                     break displayMenuLoop;
                 case 2:
                     SearchProduct();
-                    break;
+                    break displayMenuLoop;
                 case 3:
                     UpdateProduct();
-                    break;
+                    break displayMenuLoop;
                 case 4:
                     DeleteProduct();
-                    break;
+                    break displayMenuLoop;
                 case 5:
-                    break;
+                    break displayMenuLoop;
                 case 6:
                     ExitApp();
-                    break;
+                    break displayMenuLoop;
                 default:
                     InputHandler.displayErrorMessage("Please enter a valid option.");
             }
