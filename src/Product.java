@@ -1,9 +1,13 @@
 /**
- * All details about a specific product is store within the Product object.
- * This is done to comply with OOP standards.
+ * REFERENCES:
  *
  * All Switch statment using Lambdas, was Adapted from the Vojtech Ruzicka's Programming Blog posted on 07/04/2019
  * Blog: https://www.w3schools.com/java/java_try_catch.asp
+ */
+
+/**
+ * All details about a specific product is store within the Product object.
+ * This is done to comply with OOP standards.
  */
 public class Product {
     public String Code;

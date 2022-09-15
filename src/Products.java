@@ -2,10 +2,16 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
+ * REFERNCES:
+ *
  * All Labeling of While Loop ("displayMenuLoop" for example), was Adapted from a Java Point blog posted on UNKNOWN
  * Blog: https://www.javatpoint.com/labeled-loop-in-java
  * These Labeled While Loops are used to easily reference loops when trying to break a loop within a switch statement
  * as there is a keyword collision.
+ */
+
+/**
+ * The specified "Products" class from the assignment.
  */
 public class Products {
 
