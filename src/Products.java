@@ -238,7 +238,7 @@ public class Products {
 
     // Manages all functionality for Exiting out of the application.
     private void ExitApp() {
-
+        System.out.println("BRIGHT FUTURES TECHNOLOGIES wishes you a warm Goodbye!");
     }
 
     /**
