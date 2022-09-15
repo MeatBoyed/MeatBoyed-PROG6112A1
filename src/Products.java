@@ -1,16 +1,19 @@
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * All Labeling of While Loop ("displayMenuLoop" for example), was Adapted from a Java Point blog posted on UNKNOWN
+ * Blog: https://www.javatpoint.com/labeled-loop-in-java
+ * These Labeled While Loops are used to easily reference loops when trying to break a loop within a switch statement
+ * as there is a keyword collision.
+ */
 public class Products {
 
+    // Manages storing of all created Product(s)
     public List<Product> Products = new ArrayList<Product>();
 
+    // Manages all functionality of the Main Menu
     public void DisplayMenu() {
-//        FIND POSTED DATE
-        /**
-         * Line 16 & 31 (Labeling of While Loop - "displayMenuLoop"), was Adapted from a Java Point blog posted on 13/09/2022
-         * Blog: https://www.javatpoint.com/labeled-loop-in-java
-         */
         displayMenuLoop: while (true) {
             System.out.println("**************************************");
             System.out.println("Please select one of the following menu items:\n" +
@@ -23,6 +26,7 @@ public class Products {
 
             int userChoice = InputHandler.getUserInt("Please enter a valid option.");
 
+            // Decides next process based on the user's choice
             switch (userChoice) {
                 case 1:
                     CaptureProduct();
@@ -39,6 +43,7 @@ public class Products {
                 case 5:
                     break;
                 case 6:
+                    ExitApp();
                     break;
                 default:
                     InputHandler.displayErrorMessage("Please enter a valid option.");
@@ -46,8 +51,12 @@ public class Products {
         }
     }
 
+    // Manages all functionality of the Creating Product Menu
     public void CaptureProduct() {
         int productCategory;
+        int productPrice;
+        int productStockLevel;
+
         System.out.println("**************************************" +
                 "CAPTURE A NEW PRODUCT\n" +
                 "**************************************");
@@ -58,6 +67,7 @@ public class Products {
         System.out.print("Enter the product name: ");
         String productName = InputHandler.getUserString();
 
+        // Allows for continuous input from the user if they select an incorrect value.
         categoryInputLoop: while(true) {
             int[] options = {1, 2, 3, 4, 5};
             System.out.print("Select the product category:\n" +
@@ -73,19 +83,30 @@ public class Products {
             if (productCategory == 0) continue categoryInputLoop; else break categoryInputLoop;
         }
 
-        // FIX
         System.out.print("Indicate the product warranty. Enter (1) for 6 months or Any other Key for 2 years: ");
         String productWarranty = InputHandler.getUserString();
 
-        System.out.print("Enter the price for " + productName + " >> ");
-        int productPrice = InputHandler.getUserInt();
+        // Continous Loops
+        priceInputLoop: while(true) {
+            System.out.print("Enter the price for " + productName + " >> ");
+            productPrice = InputHandler.getUserInt();
 
-        System.out.print("Enter the stock level " + productName + " >> ");
-        int productStockLevel = InputHandler.getUserInt();
+            // Ensure's the correct prompt is shown based on the user's input.
+            if (productPrice == 0) continue priceInputLoop; else break priceInputLoop;
+        }
+
+        stockLevelInputLoop: while(true) {
+            System.out.print("Enter the stock level " + productName + " >> ");
+            productStockLevel = InputHandler.getUserInt();
+
+            // Ensure's the correct prompt is shown based on the user's input.
+            if (productStockLevel == 0) continue stockLevelInputLoop; else break stockLevelInputLoop;
+        }
 
         System.out.print("Enter the supplier for " + productName + " >> ");
         String productSupplier = InputHandler.getUserString();
 
+        // Saves the inputted product details.
         SaveProduct(productCode, productName, productCategory, productWarranty, productPrice, productStockLevel, productSupplier);
 
         System.out.print("Product details has saved successfully!!!\n" +
@@ -94,15 +115,26 @@ public class Products {
         // Using a String so it doesn't show an error message when the user doesn't input a number
         String userChoice = InputHandler.getUserString();
 
-        if (userChoice.equals("1")) DisplayMenu();
+        if (userChoice.equals("1")) DisplayMenu(); else ExitApp();
 
     }
 
+    /**
+     * Creates a Product object and Stores it for later access.
+     * @param code
+     * @param name
+     * @param category
+     * @param warranty
+     * @param price
+     * @param stockLevel
+     * @param supplier
+     */
     public void SaveProduct(String code, String name, int category, String warranty, double price, int stockLevel, String supplier ) {
         Product newProduct = new Product(code, name, category, warranty, price, stockLevel, supplier);
         Products.add(newProduct);
     }
 
+    // Manages all functionality of the Search Product Menu
     public void SearchProduct() {
         System.out.println("**************************************\n " +
                 "Please enter the product code to search: ");
@@ -113,8 +145,10 @@ public class Products {
         System.out.println("PRODUCT SEARCH RESULTS");
         System.out.println("**************************************");
 
+        // Executes the Search handler with the user's query and stores the result
         List<Product> searchResult = SearchProductHandler(productToSearch);
 
+        // Ensures the correct prompt is shown based on the search result ("searchResult").
         if (searchResult.size() != 0) {
             DisplayProductHandler(searchResult);
         }else {
@@ -124,18 +158,22 @@ public class Products {
             // Using a String so it doesn't show an error message when the user doesn't input a number
             String userChoice = InputHandler.getUserString();
 
-            if (userChoice.equals("1")) DisplayMenu(); else return;
+            if (userChoice.equals("1")) DisplayMenu(); else ExitApp();
         }
-
     }
 
+    // Manages all functionality of the Update Product Menu. (Assumes that the Product Code is unique)
     public void UpdateProduct() {
         System.out.println("**************************************\n " +
                 "Please enter the product code to search: ");
         String productToSearch = InputHandler.getUserString();
+
+        // Ensures that the desired product exists.
         List<Product> searchResult = SearchProductHandler(productToSearch);
 
+        // Ensures the correct prompt is displayed based on the search result ("searchResult").
         if (searchResult.size() != 0) {
+            // Manages the prompting and processing of the choice for the updating the Warranty.
             System.out.println("Update the warranty? (y) Yes, (n) No: ");
             String updateWarrantyChoice = InputHandler.getUserString();
 
@@ -145,6 +183,7 @@ public class Products {
                 searchResult.get(0).setWarranty(productWarranty);
             }
 
+            // Manages the prompting and processing of the choice for the updating the Product's Price.
             System.out.println("Update the product price? (y) Yes, (n) No: ");
             String updateProductPrice = InputHandler.getUserString();
 
@@ -154,6 +193,7 @@ public class Products {
                 searchResult.get(0).setPrice(productPrice);
             }
 
+            // Manages the prompting and processing of the choice for the updating the Stock Level.
             System.out.println("Update the product stock level? (y) Yes, (n) No: ");
             String updateStockLevel = InputHandler.getUserString();
 
@@ -164,25 +204,31 @@ public class Products {
             }
 
             System.out.println("Product details has been updated sucessfully!!!");
+
             // Using a String so it doesn't show an error message when the user doesn't input a number
             String userChoice = InputHandler.getUserString();
-            if (userChoice.equals("1")) DisplayMenu();
+
+            if (userChoice.equals("1")) DisplayMenu(); else ExitApp();
+
         }else {
-            System.out.println("Product could not be found.");
+            System.out.println("Product could not be found. Returning to the Main Menue");
             DisplayMenu();
         }
     }
 
+    // Manages all functionality for the Delete Product Menu. (Assumes the Product Code is a unique value).
     private void DeleteProduct() {
         System.out.println("**************************************\n " +
                 "Please enter the product code to Delete: ");
         String productToSearch = InputHandler.getUserString();
 
+        // Ensures the product actually exists.
         List<Product> searchResult = SearchProductHandler(productToSearch);
 
         DisplayProductHandler(searchResult);
 
         System.out.println("Enter (1) if you wish to delete, or enter Any other Key to Go Back");
+
         // Using a String so it doesn't show an error message when the user doesn't input a number
         String userChoice = InputHandler.getUserString();
 
@@ -190,6 +236,15 @@ public class Products {
 
     }
 
+    // Manages all functionality for Exiting out of the application.
+    private void ExitApp() {
+
+    }
+
+    /**
+     * Manages the functionality of displaying single/multiple products to the user.
+     * @param products
+     */
     private void DisplayProductHandler(List<Product> products) {
         for (Product product: products) {
             System.out.println("PRODUCT CODE: " + product.Code +
@@ -203,10 +258,16 @@ public class Products {
         }
     }
 
-    // Assumes Product Code is not unique
+    /**
+     * Manages the linear seaching for a specified Product.
+     * In the event that the Product Code is not unique it will return all Products with the same Code.
+     * @param productCode
+     * @return
+     */
     private List<Product> SearchProductHandler(String productCode) {
         List<Product> foundProducts = new ArrayList<>();
 
+        // Searches the Products arry for matching Product codes.
         for (Product product: Products) {
             if (product.Code.equals(productCode)) foundProducts.add(product);
         }
@@ -214,6 +275,11 @@ public class Products {
         return foundProducts;
     }
 
+    /**
+     * Manages the searching, and deleting of a specified Product.
+     * Deletes all Products that is passed to it.
+     * @param products
+     */
     private void DeleteProductHandler(List<Product> products) {
         for (Product product: products) {
             Products.remove(product);

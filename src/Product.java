@@ -1,8 +1,14 @@
+/**
+ * All details about a specific product is store within the Product object.
+ * This is done to comply with OOP standards.
+ *
+ * All Switch statment using Lambdas, was Adapted from the Vojtech Ruzicka's Programming Blog posted on 07/04/2019
+ * Blog: https://www.w3schools.com/java/java_try_catch.asp
+ */
 public class Product {
     public String Code;
     public String Name;
 
-    // Specify the available types
     public String Category;
     public String Warranty;
 
@@ -10,6 +16,16 @@ public class Product {
     public int StockLevel;
     public String Supplier;
 
+    /**
+     * Constructs a Product object and manages necessary conversions from user input to stored values.
+     * @param code
+     * @param name
+     * @param category
+     * @param warranty
+     * @param price
+     * @param stockLevel
+     * @param supplier
+     */
     public Product(String code, String name, int category, String warranty, double price, int stockLevel, String supplier) {
         Code = code;
         Name = name;
@@ -18,11 +34,8 @@ public class Product {
         StockLevel = stockLevel;
 
         /**
-         * The passed "category" is converted into the respective value, and stored in the "Category" field to
-         * Reduce Complexity in the Product class
-         *
-         * Lines 27 to 38 (Switch statment using Lambdas), was Adapted from the Vojtech Ruzicka's Programming Blog posted on 07/04/2019
-         * Blog: https://www.w3schools.com/java/java_try_catch.asp
+         * The passed "category" & "warranty" is converted into the respective value, and stored in the "Category" field to
+         * Reduce Complexity in the Product class.
          */
         Warranty = switch (warranty) {
             case "1" -> "6 months";
